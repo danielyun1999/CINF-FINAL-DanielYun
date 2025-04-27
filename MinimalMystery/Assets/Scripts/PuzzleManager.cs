@@ -7,12 +7,12 @@ public class PuzzleManager : MonoBehaviour
     private int currentIndex = 0;
 
     public GameObject winTextUI;
-    public DoorClick door;
-
-    public GameObject doorUnlockedText; 
+    public GameObject doorUnlockedText;
 
     public void CheckButton(int id)
     {
+        FindObjectOfType<PuzzleSoundManager>().PlayClick();
+
         if (id == correctSequence[currentIndex])
         {
             currentIndex++;
@@ -22,11 +22,11 @@ public class PuzzleManager : MonoBehaviour
                 if (winTextUI != null)
                     winTextUI.SetActive(true);
 
-                if (door != null)
-                    door.isUnlocked = true;
-
                 if (doorUnlockedText != null)
                     StartCoroutine(ShowDoorText());
+
+                FindObjectOfType<PuzzleSoundManager>().PlayUnlock();
+                FindObjectOfType<PuzzleMaster>().PuzzleSolved();
             }
         }
         else
