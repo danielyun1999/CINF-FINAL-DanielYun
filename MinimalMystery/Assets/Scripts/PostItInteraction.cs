@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class PostItInteraction : MonoBehaviour
 {
-    public GameObject popupUI;
+    public GameObject popupCanvas;
 
-    void OnMouseDown()
+    private void OnMouseDown()
     {
-        if (popupUI != null)
+        if (popupCanvas != null)
         {
-            popupUI.SetActive(true);
+            popupCanvas.SetActive(!popupCanvas.activeSelf);
         }
     }
 }

@@ -11,7 +11,9 @@ public class PuzzleManager : MonoBehaviour
 
     public void CheckButton(int id)
     {
-        FindObjectOfType<PuzzleSoundManager>().PlayClick();
+        
+        if (currentIndex >= correctSequence.Length)
+            return;
 
         if (id == correctSequence[currentIndex])
         {
@@ -25,8 +27,7 @@ public class PuzzleManager : MonoBehaviour
                 if (doorUnlockedText != null)
                     StartCoroutine(ShowDoorText());
 
-                FindObjectOfType<PuzzleSoundManager>().PlayUnlock();
-                FindObjectOfType<PuzzleMaster>().PuzzleSolved();
+                FindObjectOfType<PuzzleMaster>().PuzzleSolved(); 
             }
         }
         else

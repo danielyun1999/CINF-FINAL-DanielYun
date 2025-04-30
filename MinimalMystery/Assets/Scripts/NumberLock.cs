@@ -4,7 +4,6 @@ using TMPro;
 public class NumberLock : MonoBehaviour
 {
     public TMP_Text[] digits;
-
     private int[] currentValues = new int[4];
     private int[] password = { 0, 6, 2, 8 };
 
@@ -15,6 +14,7 @@ public class NumberLock : MonoBehaviour
         currentValues[index]++;
         if (currentValues[index] > 9)
             currentValues[index] = 0;
+
         UpdateDigitText(index);
         FindObjectOfType<PuzzleSoundManager>().PlayClick();
         CheckPassword();
@@ -25,6 +25,7 @@ public class NumberLock : MonoBehaviour
         currentValues[index]--;
         if (currentValues[index] < 0)
             currentValues[index] = 9;
+
         UpdateDigitText(index);
         FindObjectOfType<PuzzleSoundManager>().PlayClick();
         CheckPassword();
@@ -37,20 +38,31 @@ public class NumberLock : MonoBehaviour
 
     private void CheckPassword()
     {
+        Debug.Log($"Current: {string.Join(",", currentValues)} | Target: {string.Join(",", password)}");
+
+        bool isCorrect = true;
+
         for (int i = 0; i < 4; i++)
         {
             if (currentValues[i] != password[i])
-                return;
+            {
+                isCorrect = false;
+            }
         }
 
-        if (unlockMessage != null)
+        if (isCorrect)
         {
-            unlockMessage.SetActive(true);
-            Invoke("HideUnlockMessage", 3f);
-        }
+            Debug.Log("Puzzle solved!");
 
-        FindObjectOfType<PuzzleSoundManager>().PlayUnlock();
-        FindObjectOfType<PuzzleMaster>().PuzzleSolved();
+            if (unlockMessage != null)
+            {
+                unlockMessage.SetActive(true);
+                Invoke("HideUnlockMessage", 3f);
+            }
+
+            FindObjectOfType<PuzzleSoundManager>().PlayUnlock();
+            FindObjectOfType<PuzzleMaster>().PuzzleSolved();
+        }
     }
 
     private void HideUnlockMessage()
